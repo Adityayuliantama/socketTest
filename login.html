@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Example</title>
+</head>
+<body>
+  <h1>Socket.IO Example</h1>
+  <a id="hostId"></a>
+  <a id="log"></a>
+  <input type="text" id="usernameInput" placeholder="type Username">
+  <input type="text" id="passwordInput" placeholder="type Password">
+  <button onclick="login()">Login</button>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    var rand = function() {
+        return Math.random().toString(36).substr(2); // remove `0.`
+    };
+
+    var token = function() {
+        return rand() + rand(); // to make it longer
+    };
+
+    const currentToken = getHostId();
+    const hostIdElement = document.getElementById('hostId');
+
+    function getHostId()
+    {
+        const urlParams = new URLSearchParams(window.location.search);
+        const myParam = urlParams.get('hostId');
+        return myParam;
+    }
+
+    function login()
+    {
+        const username = document.getElementById('usernameInput').value;
+        const password = document.getElementById('passwordInput').value;
+        
+        
+
+    }
+
+
+    // socket.on('message', (data) => {
+    //     console.log('messagereceived '+data);
+    //   const messages = document.getElementById('messages');
+    //   const li = document.createElement('li');
+    //   li.textContent = data;
+    //   messages.appendChild(li);
+    // });
+
+    // function sendMessage() {
+    //   const messageInput = document.getElementById('messageInput');
+    //   const message = messageInput.value;
+    //   socket.emit('message', message);
+    //   messageInput.value = '';
+    // }
+  </script>
+</body>
+</html>
