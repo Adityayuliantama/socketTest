@@ -22,7 +22,7 @@ app.get('/login', (req, res) =>{
 app.post('/login',(req,res) =>{
 
     io.emit("login", req.query.hostId, req.query.userId);
-    res.send('loginCalled ' + req.query.hostId + ' with user ');
+    res.send('loginCalled ' + req.query.hostId + ' with user ' );
 });
 
 
@@ -32,15 +32,19 @@ app.post('/sendMessage',(req,res) =>{
     res.send('Custom event emitted');
 });
 
+app.get('/game',(req,res) =>{
+  res.send("hello "+ req.query.userId +"here is the game");
+})
+
 // Define event handlers for socket connections
 io.on('connection', (socket) => {
   console.log('A user connected');
 
-//   socket.on('login', hostId => {
-//     console.log('someone login using host ' + hostId);
-//     // Broadcast the message to all connected clients
-//     io.emit('login', hostId);
-//   });
+  socket.on('login', (hostId, userId) => {
+    console.log('someone login using host ' + hostId + ' with user ' + userId);
+    // Broadcast the message to all connected clients
+    io.emit('login', hostId,userId);
+  });
 
 
 

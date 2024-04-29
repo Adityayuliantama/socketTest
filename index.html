@@ -7,8 +7,9 @@
 </head>
 <body>
   <h1>Socket.IO Example</h1>
-  <a id="hostId"></a>
-  <a id="log"></a>
+  <a id="hostId"></a><br>
+  <a id="imgUrl"></a><br>
+  <a id="log"></a><br>
 
   <img id = "qrImage" src="">
 
@@ -18,6 +19,7 @@
   <ul id="messages"></ul>
 
   <script src="/socket.io/socket.io.js"></script>
+  <script src="https://raw.githubusercontent.com/wrangr/psl/master/dist/psl.min.js"></script>
   <script>
     const socket = io();
 
@@ -42,16 +44,19 @@
     socket.on('login', (hostId, userId) => {
       const log = document.getElementById('log');
       log.textContent = (hostId, userId);
+      var url = window.location.origin;
+      window.open(url+"/game?userId="+userId,"_self")
     });
+
 
 
     async function getQr()
     {
 
         let url = redir+"?hostId="+currentToken;
-
-
         const response = await fetch("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+url);
+        const a = document.getElementById('imgUrl');
+        a.textContent = url;
         const image = document.getElementById('qrImage');
         image.src = response.url;
     }

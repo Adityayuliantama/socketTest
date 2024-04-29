@@ -9,8 +9,8 @@
   <h1>Socket.IO Example</h1>
   <a id="hostId"></a>
   <a id="log"></a>
-  <input type="text" id="usernameInput" placeholder="type Username">
-  <input type="text" id="passwordInput" placeholder="type Password">
+  <input type="text" id="usernameInput" placeholder="type Username" value = "asepbedil">
+  <input type="text" id="passwordInput" placeholder="type Password" value = "ayamgoreng15000">
   <button onclick="login()">Login</button>
 
   <script src="/socket.io/socket.io.js"></script>
@@ -35,11 +35,33 @@
         return myParam;
     }
 
-    function login()
+    async function login()
     {
         const username = document.getElementById('usernameInput').value;
         const password = document.getElementById('passwordInput').value;
         
+        await fetch('http://192.168.11.102'+':1337/api/auth/local',{
+          method: "POST",
+          body: JSON.stringify({
+            identifier: username,
+            password: password,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        }).then(response =>{
+          return response.json();
+        }).then(json=>{
+
+          const log = document.getElementById('log');
+          log.textContent = json.user.username;
+
+          console.log(json.user.username);
+
+          socket.emit('login', getHostId(), json.user.username);
+
+        });
+
         
 
     }
